@@ -1,0 +1,123 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --gradient: #1d2b64;
+    --background: 242 97.75% 98.5%;
+    --foreground: 242 5.5% 1%;
+
+    --muted: 242 5.5% 92.5%;
+    --muted-foreground: 242 2.75% 42.5%;
+
+    --popover: 242 46% 92.5%;
+    --popover-foreground: 242 5.5% 1.25%;
+
+    --card: 242 46% 92.5%;
+    --card-foreground: 242 5.5% 1.25%;
+
+    --border: 242 10.5% 90%;
+    --input: 242 10.5% 90%;
+
+    --primary: 242 55% 25%;
+    --primary-foreground: 242 1.1% 92.5%;
+
+    --secondary: 242 2.75% 96.25%;
+    --secondary-foreground: 242 4.300000000000001% 12.5%;
+
+    --accent: 242 2.75% 96.25%;
+    --accent-foreground: 242 4.300000000000001% 12.5%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --ring: 242 55% 25%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --gradient: linear-gradient(to top left, #24c6dc, #514a9d);
+
+    --background: 199 47.449999999999996% 4%;
+    --foreground: 199 7.3% 97.5%;
+
+    --muted: 199 36.5% 15%;
+    --muted-foreground: 199 7.3% 55%;
+
+    --popover: 199 50.4% 6.5%;
+    --popover-foreground: 199 7.3% 97.5%;
+
+    --card: 199 50.4% 6.5%;
+    --card-foreground: 199 7.3% 97.5%;
+
+    --border: 199 36.5% 15%;
+    --input: 199 36.5% 15%;
+
+    --primary: 199 73% 50%;
+    --primary-foreground: 199 7.3% 5%;
+
+    --secondary: 199 36.5% 15%;
+    --secondary-foreground: 199 7.3% 97.5%;
+
+    --accent: 199 36.5% 15%;
+    --accent-foreground: 199 7.3% 97.5%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 199 7.3% 97.5%;
+
+    --ring: 199 73% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
+@layer components {
+  .navActive {
+    @apply bg-accent;
+  }
+
+  .leaflet-layer {
+    @apply dark:invert dark:hue-rotate-180 dark:brightness-95 dark:contrast-100;
+  }
+
+  ,
+  .leaflet-control-zoom-in {
+    @apply dark:invert dark:hue-rotate-180 dark:brightness-95 dark:contrast-100;
+  }
+  ,
+  .leaflet-control-zoom-out {
+    @apply dark:invert dark:hue-rotate-180 dark:brightness-95 dark:contrast-100;
+  }
+  ,
+  .leaflet-control-attribution {
+    @apply dark:invert dark:hue-rotate-180 dark:brightness-95 dark:contrast-100;
+  }
+}
+
+/* .leaflet-layer,
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out,
+.leaflet-control-attribution {
+  filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+} */

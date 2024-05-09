@@ -1,0 +1,170 @@
+import { Separator } from "@/components/ui/separator";
+import { Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "@/components/ui/input";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { addContact } from "@/redux/contactsSlice";
+import { useDispatch } from "react-redux";
+
+// const ACCEPTED_IMAGE_TYPES = [
+//   "image/jpeg",
+//   "image/jpg",
+//   "image/png",
+//   "image/webp",
+// ];
+
+const formSchema = z.object({
+  // image: z.instanceof(FileList).refine((uploadedFile) => {
+  //   const file = uploadedFile[0];
+  //   return ACCEPTED_IMAGE_TYPES.includes(file.type);
+  // }),
+
+  // image: z
+  //   .any()
+  //   .refine((file) => file instanceof File, {
+  //     message: "Expected a file",
+  //   })
+  //   .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file.type), {
+  //     message: "Only these types are allowed .jpg, .jpeg, .png and .webp",
+  //   }),
+  firstname: z
+    .string()
+    .min(2, { message: "Firstname should be atleast 2 characters long" })
+    .max(50, { message: "Max Firstname length should be 50" }),
+  lastname: z
+    .string()
+    .min(2, { message: "Lastname should be atleast 2 characters long" })
+    .max(50, { message: "Max Lastname length should be 50" }),
+  status: z.enum(["active", "inactive"]),
+});
+
+type formValues = z.infer<typeof formSchema>;
+
+const AddContactPage = () => {
+  const form = useForm<formValues>({
+    resolver: zodResolver(formSchema),
+  });
+
+  // const fileRef = form.register("image");
+
+  const dispatch = useDispatch();
+
+  const onSubmit = (values: formValues) => {
+    dispatch(
+      addContact({
+        id: crypto.randomUUID(),
+        firstname: values.firstname,
+        lastname: values.lastname,
+        status: values.status,
+        // image: values.image[0],
+      })
+    );
+
+    console.log(values);
+  };
+
+  return (
+    <div className="w-full px-6 py-12 ">
+      <div className="flex items-center justify-center gap-3 mb-8 mob:gap-8">
+        <Plus size={48} />
+        <h1 className="text-xl font-bold mob:text-3xl text-primary">
+          Add Contact
+        </h1>
+      </div>
+      <Separator />
+
+      <div className="mx-auto mt-20 max-w-96">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            {/* <FormField
+              control={form.control}
+              name="image"
+              render={() => (
+                <FormItem>
+                  <FormLabel className="text-primary">Image</FormLabel>
+                  <FormControl>
+                    <Input type="file" placeholder="shadcn" {...fileRef} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            /> */}
+            <FormField
+              control={form.control}
+              name="firstname"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-primary">First Name</FormLabel>
+                  <FormControl>
+                    <Input {...field} className="bg-accent" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="lastname"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-primary">Last Name</FormLabel>
+                  <FormControl>
+                    <Input {...field} className="bg-accent" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="status"
+              render={({ field }) => (
+                <FormItem className="space-y-3">
+                  <FormLabel>Status</FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      className="flex flex-col space-y-1"
+                    >
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="active" />
+                        </FormControl>
+                        <FormLabel className="font-normal">Active</FormLabel>
+                      </FormItem>
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="inactive" />
+                        </FormControl>
+                        <FormLabel className="font-normal">Inactive</FormLabel>
+                      </FormItem>
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <div className="flex justify-end">
+              <Button type="submit">Save</Button>
+            </div>
+          </form>
+        </Form>
+      </div>
+    </div>
+  );
+};
+
+export default AddContactPage;
